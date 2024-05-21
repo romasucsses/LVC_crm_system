@@ -1,0 +1,43 @@
+services:
+  back_drf:
+    build: .
+    ports:
+      - '8001:8000'
+
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+      - .:/back_drf
+
+  db:
+    image: mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: 'lvc_crm_docker'
+      MYSQL_USER: 'admin'
+      MYSQL_PORT: '3306'
+      MYSQL_PASSWORD: 'admin5'
+      MYSQL_ROOT_PASSWORD: 'password'
+
+  redis:
+    image: redis
+    hostname: redis
+
+  worker:
+    build: .
+    hostname: worker
+    entrypoint: celery
+    container_name: celery
+    volumes:
+      - .:/back_drf
+    links:
+      - redis
+    depends_on:
+      - redis
+      - back_drf
+    working_dir: /back_drf/crm_api
+    command: -A celery_app.app worker --loglevel=info
+

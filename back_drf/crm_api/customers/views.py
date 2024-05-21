@@ -5,7 +5,6 @@ from .serializers import CustomerSerializerAPI
 from users.permissions import *
 
 
-
 class ListCustomersAPIView(APIView):
     permission_classes = [AdministratorOrManager]
 
@@ -57,18 +56,3 @@ class AddNewCustomerAPIView(APIView):
         return Response("Failed adding of new customer")
 
 
-class SendEmailAPIView(APIView):
-    permission_classes = [Administrator]
-
-    def post(self, request):
-        sending_to = request.query_params.get("sending_to")
-        if sending_to == "to_all":
-            self.sendingToAllCustomers()
-        elif sending_to == "to_selected":
-            self.sendingToSelectedCustomers()
-
-    def sendingToAllCustomers(self):
-        pass
-
-    def sendingToSelectedCustomers(self):
-        pass

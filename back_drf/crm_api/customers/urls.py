@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import *
-
+from email_sender.views import SendEmailAPIView
 
 urlpatterns = [
     path('list-customers/', ListCustomersAPIView.as_view(), name="list_of_customers"),

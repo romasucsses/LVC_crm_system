@@ -9,7 +9,7 @@ class ListOrdersAPIView(APIView):
 
     def get(self, request):
         order_by = request.query_params.get("order_by", "date")
-        orders = Orders.objects.all().order_by(order_by)
+        orders = Orders.objects.all().order_by(order_by).prefetch_related('user', 'customer')
         is_approved_orders = request.query_params.get("approved_orders", False)
 
         if is_approved_orders:

@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -33,12 +34,14 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt',
 
+
     'analytics.apps.AnalyticsConfig',
     'customers.apps.CustomersConfig',
     'orders.apps.OrdersConfig',
     'products.apps.ProductsConfig',
     'users.apps.UsersConfig',
-    'clean_db'
+    'clean_db',
+    'email_sender'
 
 ]
 
@@ -79,10 +82,10 @@ WSGI_APPLICATION = 'crm_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'lvc_crm',
-        'USER': 'root',
+        'NAME': 'lvc_crm_docker',
+        'USER': 'admin',
         'PASSWORD': 'admin5',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '3306'
     }
 }
@@ -180,3 +183,13 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=15),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+
+# Celery settings
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_BACKEND = 'redis://redis:6379/0'
+CELERY_BROKER = 'redis://redis:6379/0'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# URL to access the media files
+MEDIA_URL = '/media/'
