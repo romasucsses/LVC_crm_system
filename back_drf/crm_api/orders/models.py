@@ -12,6 +12,7 @@ class Orders(models.Model):
     date_creating = models.DateField(auto_now=True)
     delivery_date = models.DateField()
     is_approved = models.BooleanField(default=False)
+    pdf_document = models.FileField()
 
 
 class Invoices(models.Model):
@@ -26,6 +27,7 @@ class Invoices(models.Model):
     is_sent_mail = models.BooleanField(default=False)
     ship_via = models.CharField(max_length=100)  # warehouse/handle
     terms = models.CharField(max_length=55)
+    pdf_document = models.FileField()
 
 
 

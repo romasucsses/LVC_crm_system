@@ -10,7 +10,7 @@ services:
       - db
     volumes:
       - .:/back_drf
-
+    container_name: django
   db:
     image: mysql
     ports:
@@ -21,10 +21,11 @@ services:
       MYSQL_PORT: '3306'
       MYSQL_PASSWORD: 'admin5'
       MYSQL_ROOT_PASSWORD: 'password'
-
+    container_name: mysql
   redis:
     image: redis
     hostname: redis
+    container_name: redis
 
   worker:
     build: .

@@ -1,8 +1,9 @@
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
 from users.permissions import Administrator, AdministratorOrManager
-
+from .tasks import *
 
 class ListOrdersAPIView(APIView):
     permission_classes = [Administrator]
@@ -134,3 +135,11 @@ class DetailInvoiceAPIView(APIView):
     def pdfOpen(self):
         pass
 
+
+class GenerateInvoice(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        context = {'my_name': 'Roma'}
+        generate_invoice.delay(context)
+        return Response("the invoice pdf generation is started")

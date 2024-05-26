@@ -10,8 +10,9 @@ COPY . /back_drf/
 
 COPY requirements.txt /back_drf/
 
-RUN apk add --no-cache mariadb-dev build-base && \
-    pip install -r requirements.txt
+RUN apk add --no-cache mariadb-dev build-base
+
+RUN pip install -r requirements.txt
+
 
 CMD ["sh", "-c", "cd crm_api/ && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
-

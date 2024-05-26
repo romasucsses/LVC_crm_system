@@ -8,5 +8,5 @@ urlpatterns = [
     # invoices
     path('invoices-list/', ListInvoicesAPIView.as_view(), name='invoices_list'),
     path('detail-invoice/<int:pk>/', DetailInvoiceAPIView.as_view(), name='detail_invoice'),
-
+    path('generate_pdf/', GenerateInvoice.as_view())
 ]
