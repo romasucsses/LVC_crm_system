@@ -3,68 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+<!--    <link rel="stylesheet" href="pdf_css.css">-->
 </head>
-<body>
-    <hr>
-    <table border="1">
-        <tr>
-            <td colspan="2">
-                 Please Remit Payment To:
-                LVC International,Inc.
-                1806 Jerome Ave. Brooklyn,NY 11235
-                tel: (718) 809-9182
+    <body>
+        <hr>
+        <table width="60%" border="1">
+            <tr class="tr1">
+                <td colspan="5">
+                    <p class="remit-payment" style="text-align: left;">
+                        <b>
+                            Please Remit Payment To: <br> <br>
+                            LVC International,Inc. <br>
+                            1806 Jerome Ave. Brooklyn,NY 11235<br>
+                            tel: (718) 809-9182
+                        </b>
+                    </p>
+                </td>
+                <td colspan="5">
+                    <p class="invoice-code">
+                        <b>
+                            <span style="font-size: 19px;">Invoice {{ invoice.code_invoice }}</span><br> <br>
+                            Invoice Date {{ invoice.date }} <br> <br>
+                            Please include invoice # on check.
+                        </b>
+
+                    </p>
+                </td>
+            </tr>
+            <tr class="tr2">
+                <td colspan="5">
+                    <p class="opens-at">
+                        Opens at: {{ invoice.customer.open_at_hour }}
+                    </p>
+                </td>
+                <td colspan="5">
+                    <p class="code" style="font-size: 15px;">
+                        NY-I-2009 <br>
+                        NY# 1267494
+                    </p>
+                </td>
+            </tr>
+            <tr class="tr3">
+                <td colspan="5">
+                    <p class="bill-to" style="text-align: left; font-size: 14px;">
+                        <b>Bill To:</b><br>
+                        {{ invoice.customer.name }}..<br>
+                        {{ invoice.customer.address }}<br>
+                        {{ invoice.customer.phone }}
+                    </p>
+                </td>
+                <td colspan="5">
+                    <p class="ship-to" style="text-align: left; font-size: 14px;">
+                        <b>Ship To:</b><BR>
+                        {{ invoice.customer.name }}..<br>
+                        {{ invoice.customer.address }}<br>
+                        {{ invoice.customer.phone }}
+                </p>
+            </td>
+            </tr>
+            <tr class="tr4">
+                <td colspan="3" style="width: 40px;">
+                    <p>
+                        <b>Ship Via</b>
+                    </p>
+                </td>
+                <td colspan="3" style="width: 130px;">
+                    <p>
+                        <b>F.O.B.</b>
+                    </p>
+                </td>
+                <td colspan="4">
+                    <p>
+                        <b>Terms</b>
+                    </p>
+                </td>
+            </tr>
+            <tr class="tr5">
+                <td colspan="3">
+                    <p class="ship-via">
+                        {{ invoice.ship_via }}
+                    </p>
+                </td>
+                <td colspan="3">
+                    <p class="FOB">
+
+                    </p>
+                </td>
+                <td colspan="4">
+                    <p class="terms-days">
+                        {{ invoice.terms }}
+                    </p>
+                </td>
+            </tr>
+            <tr class="tr6">
+                <td colspan="4">
+                    <p>
+                        <b>Purchase Order Number</b>
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        <b>Salesperson</b>
+                    </p>
+                </td>
+                <td colspan="3">
+                    <p>
+                        <b>Order Date</b>
+                    </p>
+                </td>
+                <td colspan="2">
+                    <p>
+                        <b>Our Order Number</b>
+                    </p>
+                </td>
+            </tr>
+        <tr class="tr7">
+            <td colspan="4">
+                <p class="purchase_order_number">
+
+                </p>
+            </td>
+            <td>
+                <p class="salesperson">
+                    VC
+                </p>
+            </td>
+            <td colspan="3">
+                <p class="order-date">
+                    {{ invoice.date }}
+                </p>
             </td>
             <td colspan="2">
-                Invoice F00010576
-                Invoice Date 05/20/24
-                Please include invoice # on check.
+                <p class="our_order_number">
+
+                </p>
+            </td>
+        </tr>
+        <tr class="tr8" style="height: 10px;">
+            <td rowspan="2" style="width: 10px;"><p>
+                <b>
+                    Quantity<br>
+                    Ordered
+                </b>
+            </p></td>
+            <td colspan="4">
+                <p>
+                    <b>Item Description</b>
+                </p>
+            </td>
+            <td colspan="4">
+                <p>
+                    <b>Unit Price</b>
+                </p>
+            </td>
+            <td rowspan="2" >
+                <p>
+                    <b>Extended Price</b>
+                </p>
+            </td>
+
+        </tr>
+        <tr class="tr9" style="height: 10px;">
+            <td colspan="3">
+                <p>
+                    <b>Item Number</b>
+                </p>
+            </td>
+            <td width="80px">
+                <p>
+                    <b>Liters</b>
+                </p>
+            </td>
+            <td width="100px">
+                <p>
+                    <b>U/M</b>
+                </p>
+            </td>
+            <td>
+                <p>
+                    <b>Discount %</b>
+                </p>
+            </td>
+            <td colspan="2">
+                <p>
+                    <b>Tax</b>
+                </p>
             </td>
         </tr>
         <tr>
-            <td colspan="2">Opens at: 11:00</td>
-            <td colspan="2">NY-I-2009
-                NY# 1267494
+            <td style="width: 10px;">
+                <p class="quantity_ordered">
+                    1
+                </p>
+            </td>
+            <td colspan="3" width="250px">
+                <p class="item_number">
+                    {{ invoice.cart_data }}<br>
+                    LVC 9006-22
+                </p>
+            </td>
+            <td width="80px">
+                <p class="liters">
+
+                </p>
+            </td>
+            <td width="100px">
+                <p class="um">
+                    CASE 12
+                </p>
+            </td>
+            <td>
+                <p class="discount">
+
+                </p>
+            </td>
+            <td colspan="2" width="150px">
+                <p class="tax">
+                    112.00<br>
+                    N
+                </p>
+            </td>
+            <td>
+                <p class="extended_price">
+                    112.00
+                </p>
+            </td>
+
+        </tr>
+        <tr style="height: 110px;">
+            <td colspan="7">
+                <p style="font-size: 13px; text-align: right;">
+                    <b>
+                        Total Cases <br>
+                        Nontaxable Subtotal <br>
+                        Taxable Subtotal <br>
+                        Tax <br>
+                        Total Invoice <br>
+                    </b>
+                </p>
+            </td>
+            <td colspan="3">
+                <p style="font-size: 13px; text-align: left;">
+                    <span class="total_cases">{{ invoice.total_cases }}</span><br>
+                    <span class="nontaxable_subtotal"></span><br>
+                    <span class="taxable_subtotal"></span><br>
+                    <span class="tax"></span><br>
+                    <span class="total_invoice">{{ invoice.total_sum }}</span>
+                </p>
             </td>
         </tr>
-        <tr>
-            <td colspan="2">Bill To:Vitalik Corp..127 BRIGHTON BEACH AVE,BROOKLYN NY 11235718/676-2355</td>
-            <td colspan="2">Ship To:Vitalik Corp..127 BRIGHTON BEACH AVE,BROOKLYN NY 11235718/676-2355</td>
-        </tr>
-        <tr>
-            <td>Ship Via </td>
-            <td>F.O.B. </td>
-            <td colspan="3">Terms</td>
-        </tr>
-        <tr>
-            <td>WarehouseDeliver</td>
-            <td></td>
-            <td colspan="3">30 days</td>
-        </tr>
-        <tr>
-            <td colspan="2">Purchase Order Number </td>
-            <td >Salesperson</td>
-            <td>Order Date </td>
-            <td>Our Order Number</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>VC</td>
-            <td>05/20/24</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>QuantityOrdered</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-        </tr>
+        <tr style="height: 20px;"></tr>
     </table>
 
 </body>

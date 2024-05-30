@@ -8,7 +8,7 @@ from users.permissions import Administrator
 
 
 class SendEmailAPIView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [Administrator]
 
     def post(self, request):
         emails_list = request.data.get("emails")

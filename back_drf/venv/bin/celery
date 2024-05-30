@@ -1,4 +1,4 @@
-#!/mnt/sda1/work-dir/LVC_crm/back_drf/venv/bin/python3
+#!/mnt/work-dir/LVC_crm/back_drf/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

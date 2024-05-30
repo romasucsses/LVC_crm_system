@@ -5,7 +5,7 @@ from .models import Product
 class ProductsWithoutPriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        exclude = ['case_bottles_number', 'price']
+        exclude = ['price']
 
 
 class ProductsWithPriceSerializer(serializers.ModelSerializer):

@@ -10,7 +10,18 @@ COPY . /back_drf/
 
 COPY requirements.txt /back_drf/
 
-RUN apk add --no-cache mariadb-dev build-base
+RUN apk add --no-cache mariadb-dev build-base \
+    cairo \
+    cairo-dev \
+    pango \
+    pango-dev \
+    gdk-pixbuf \
+    gdk-pixbuf-dev \
+    libffi-dev \
+    shared-mime-info \
+    gobject-introspection-dev \
+    fontconfig \
+    ttf-dejavu
 
 RUN pip install -r requirements.txt
 

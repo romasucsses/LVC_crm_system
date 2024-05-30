@@ -19,16 +19,13 @@ class ListProductsWithPriceAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        pass
-
-
-class ManageListProductsAPIView(APIView):
-    permission_classes = [Administrator]
-
-    def get(self, request):
         products = Product.objects.all()
         serialized_info = ProductsWithPriceSerializer(products, many=True)
         return Response(serialized_info.data)
+
+
+class AddNewProductAPIView(APIView):
+    permission_classes = [Administrator]
 
     def post(self, request):
         new_serialized_product = ProductsWithPriceSerializer(Product, data=request.data)
@@ -62,3 +59,7 @@ class ManageDetailProductAPIView(APIView):
     def delete(self, request, pk):
         self.get_product(pk).delete()
         return Response("Was delete successfully")
+
+
+# adding states, country's, etc.
+

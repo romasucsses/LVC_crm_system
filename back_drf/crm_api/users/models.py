@@ -21,7 +21,7 @@ class UserManager(BaseUserManager):
     def create_superuser(self, username=None, password=None, **extra_fields):
         extra_fields.setdefault("is_active", True)
         extra_fields.setdefault("is_client", False)
-        extra_fields.setdefault("is_manager", False)
+        extra_fields.setdefault("is_manager", True)
         extra_fields.setdefault("is_superuser", True)
         return self._create_user(username, password, **extra_fields)
 
@@ -41,6 +41,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+    @property
+    def is_staff(self):
+        return self.is_manager
 
     def __str__(self):
         return f'user{self.username}'

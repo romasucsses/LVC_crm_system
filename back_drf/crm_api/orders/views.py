@@ -1,22 +1,26 @@
+from django.http import FileResponse
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
 from users.permissions import Administrator, AdministratorOrManager
 from .tasks import *
+from .generate_code import generate_code
+from .models import *
+
 
 class ListOrdersAPIView(APIView):
     permission_classes = [Administrator]
 
     def get(self, request):
-        order_by = request.query_params.get("order_by", "date")
+        order_by = request.query_params.get("order_by", "date_creating")
         orders = Orders.objects.all().order_by(order_by).prefetch_related('user', 'customer')
         is_approved_orders = request.query_params.get("approved_orders", False)
 
         if is_approved_orders:
-            orders = orders.objects.filter(is_approved=True)
+            orders = orders.filter(is_approved=True)
         elif is_approved_orders is False:
-            orders = orders.objects.filter(is_approved=False)
+            orders = orders.filter(is_approved=False)
 
         serialized_info = OrdersSerializer(orders, many=True)
         return Response(serialized_info.data)
@@ -55,26 +59,45 @@ class DetailOrderAPIView(APIView):
         order = self.get_order(pk)
         action = request.query_params.get("action", None)
         if action == "checkLicenceStatus":
-            return self.checkLicenceStatus()
-        elif action == "generateInvoice":
-            return self.generateInvoice()
-
-    def checkLicenceStatus(self):
-        pass
-
-    def generateInvoice(self):
-        pass
+            return check_licence_status.delay()
 
 
 class CreateOrderAPIView(APIView):
-    permission_classes = [AdministratorOrManager]
+    permission_classes = [Administrator]
 
     def post(self, request):
-        new_order = OrdersSerializer(Orders, data=request.data)
+        new_order = OrdersSerializer(data=request.data)
+
         if new_order.is_valid():
             new_order.save(is_approved=False)
+
             return Response("New Order have been created")
-        return Response("Failed Order creation")
+        return Response(new_order.errors, status=400)
+
+
+class CreateInvoiceAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, pk_order):
+        order = Orders.objects.get(pk=pk_order)
+        codes_list = generate_code(pk_order)
+
+        new_invoice = Invoices(
+            code_invoice=codes_list[0],
+            code_order_invoice=codes_list[1],
+            date=order.delivery_date,
+            # customer=order.customer,
+            cart_data=order.cart_data,
+            total_cases=order.cases_number,
+            total_sum=order.total_sum,
+            past_due='30days',
+            is_sent_mail=False,
+            ship_via='warehouse',
+            terms='30'
+        )
+        new_invoice.save()
+        new_invoice.customer.set(order.customer.all())
+        return Response('invoice have been created successfully')
 
 
 class ListInvoicesAPIView(APIView):
@@ -125,21 +148,22 @@ class DetailInvoiceAPIView(APIView):
     def post(self, request, pk):
         action = request.query_params.get("action", None)
         if action == "pdfPrint":
-            return self.pdfPrint()
+            pass
         elif action == "pdfOpen":
-            return self.pdfOpen()
+            return self.pdfOpen(pk)
 
-    def pdfPrint(self):
-        pass
-
-    def pdfOpen(self):
-        pass
+    def pdfOpen(self, pk):
+        file_path = ''
+        return FileResponse(open(file_path, 'rb'), content_type='application/pdf')
 
 
-class GenerateInvoice(APIView):
+class GeneratePDFDoc(APIView):
     permission_classes = [AllowAny]
 
-    def get(self, request):
-        context = {'my_name': 'Roma'}
+    def get(self, request, pk_invoice):
+        invoice = Invoices.objects.get(pk=pk_invoice)
+        serialized_invoice = InvoicesSerializer(invoice)
+        context = {'invoice': serialized_invoice.data}
         generate_invoice.delay(context)
         return Response("the invoice pdf generation is started")
+

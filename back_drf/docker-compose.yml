@@ -1,4 +1,15 @@
 services:
+  db:
+    image: mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: 'lvc_crm_docker'
+      MYSQL_USER: 'admin'
+      MYSQL_PORT: '3306'
+      MYSQL_PASSWORD: 'admin5'
+      MYSQL_ROOT_PASSWORD: 'password'
+    container_name: mysql
   back_drf:
     build: .
     ports:
@@ -11,17 +22,7 @@ services:
     volumes:
       - .:/back_drf
     container_name: django
-  db:
-    image: mysql
-    ports:
-      - "3307:3306"
-    environment:
-      MYSQL_DATABASE: 'lvc_crm_docker'
-      MYSQL_USER: 'admin'
-      MYSQL_PORT: '3306'
-      MYSQL_PASSWORD: 'admin5'
-      MYSQL_ROOT_PASSWORD: 'password'
-    container_name: mysql
+
   redis:
     image: redis
     hostname: redis

@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt',
 
-
     'analytics.apps.AnalyticsConfig',
     'customers.apps.CustomersConfig',
     'orders.apps.OrdersConfig',
