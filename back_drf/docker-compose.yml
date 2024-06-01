@@ -28,7 +28,7 @@ services:
     hostname: redis
     container_name: redis
 
-  worker:
+  worker1:
     build: .
     hostname: worker
     entrypoint: celery
@@ -43,3 +43,17 @@ services:
     working_dir: /back_drf/crm_api
     command: -A celery_app.app worker --loglevel=info
 
+  worker2:
+    build: .
+    hostname: worker
+    entrypoint: celery
+    container_name: celery
+    volumes:
+      - .:/back_drf
+    links:
+      - redis
+    depends_on:
+      - redis
+      - back_drf
+    working_dir: /back_drf/crm_api
+    command: -A celery_app.app worker --loglevel=info
